@@ -69,3 +69,4 @@ for k in range (n) :
     Persona.append(f'Persona{k}')
     Persona[k] = Alumno(nombre , b)
     #*GUARDAR b EN UNA ESTRUCTURA
+
