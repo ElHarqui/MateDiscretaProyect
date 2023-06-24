@@ -63,14 +63,18 @@ n = int(input("-> "))
 #!      
 
 ####!
-df = pd. read_csv("data.csv", sep=";" )
-print(df)
-print(df["codigo_alum"].size)
-print(df.index)
-print(df.size)
-print(df.dtypes)
+#df = pd. read_csv("data.csv", sep=";" )
+#colum = df["codigo_alum"]
+#print(colum[1])
+
+#print(df)
+#print(df["codigo_alum"].size)
+#print(df.index)
+#print(df.size)
+#print(df.dtypes)
 for k in range (n) :
     print(f'Ingrese nombre del alumno N°{k+1} :')
+    b = ""
     nombre = input("-> ")
     for i in range (6)  :
         print(h[i])
@@ -83,9 +87,14 @@ for k in range (n) :
     Persona[k] = Alumno(nombre , b)
     archivo = pd.DataFrame({"nombre_alum" : [Persona[k].nombre] ,"codigo_alum" : [Persona[k].codigo]})
     print(archivo)
+    GuardarDatosCSV(nombre,b)
     archivo.to_csv("data.csv",";",mode= "a", header= False, index= False)
-    df = pd. read_csv("data.csv", sep=";")
 
     #*GUARDAR b EN UNA ESTRUCTURA
-    
+    def GuardarDatosCSV(nombre,codigo):
+        """
+        Purpose: 
+        """
+        archivo = pd.DataFrame({"nombre_alum" : [nombre] ,"codigo_alum" : [codigo]})
+    # end def
 
