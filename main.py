@@ -1,5 +1,6 @@
 import networkx as nx
 import matplotlib.pyplot as plt
+import itertools as inter
 
 
 # https://networkx.org/documentation/stable/reference/classes/generated/networkx.DiGraph.add_edge.html?highlight=add_edge#networkx.DiGraph.add_edge

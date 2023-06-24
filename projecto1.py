@@ -1,3 +1,6 @@
+import pandas as pd
+#alfa = open ( "./MateDiscretaProyect/data.csv", "a")
+#alfa.close()
 class Alumno :
     def __init__(self, nombre, codigo):
         self.nombre = nombre
@@ -56,6 +59,16 @@ b = str()
 h = ["1.- Cual es su deporte favorito?","2.- Que musica le gusta ?","3.- Que danza le gusta de preferencia?","4.- Toca algun instrumento?","5.- Cual es su clib favorito?","6.- Cual es su hobbie favorito?"]
 print("Cuantas personas son ?")
 n = int(input("-> "))
+####!
+#!      
+
+####!
+df = pd. read_csv("data.csv", sep=";" )
+print(df)
+print(df["codigo_alum"].size)
+print(df.index)
+print(df.size)
+print(df.dtypes)
 for k in range (n) :
     print(f'Ingrese nombre del alumno N°{k+1} :')
     nombre = input("-> ")
@@ -65,8 +78,14 @@ for k in range (n) :
         for j in range(len(r)) :
             print(f'{r[j]} :   {Preg[i][r[j]]}')
         a = input('-> ')
-        b = b + a    
+        b = b + a  
     Persona.append(f'Persona{k}')
     Persona[k] = Alumno(nombre , b)
+    archivo = pd.DataFrame({"nombre_alum" : [Persona[k].nombre] ,"codigo_alum" : [Persona[k].codigo]})
+    print(archivo)
+    archivo.to_csv("data.csv",";",mode= "a", header= False, index= False)
+    df = pd. read_csv("data.csv", sep=";")
+
     #*GUARDAR b EN UNA ESTRUCTURA
+    
 
