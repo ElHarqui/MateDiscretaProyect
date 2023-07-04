@@ -21,10 +21,11 @@ for k in range(n):
     b = ""  # *Variable para almacenar las respuestas de cada categoría
 
     for i in range(6):
-        print(h[i])
-        #r = list(Preg[i].keys())
-        for j in range(len(r)):
-            #print(f'{r[j]}:   {Preg[i][r[j]]}')
+        #*IMPRIMIR PREGUNTAS
+        
+        for j in range():
+            #*IMPRIMIR VARIABLES
+            
         a = input('-> ')
         b += a
 

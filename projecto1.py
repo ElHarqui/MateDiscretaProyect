@@ -6,13 +6,14 @@ class Alumno :
     def __init__(self, nombre, codigo):
         self.nombre = nombre
         self.codigo = codigo
-#*
+"""
 Preg = []  #GUARDAR PREGUNTAS
-Persona = list()   
-
+"""
+Persona = list()  
+""" 
 b = str()
 hh = [] #GUARDAR RESPUESTAS
-h = []
+h = []"""
 def AgregarPreguntas():
     PreguntasArchivo = pd.read_csv("Preguntas.csv",sep = ";",header= 0)
     ColumnaPregunta = PreguntasArchivo
@@ -44,23 +45,32 @@ def GuardarDatosCSV(nombre,codigo):
 def AgregarAlumnos():
     print("Cuantos alumnos mas vas a agregar?")
     n = int(input("-> "))
-
+    PreguntasArchivo = pd.read_csv("Preguntas.csv",sep = ";",header= 0) #Leyendo CSV para obtener las preguntas y variables
+    Preguntas = PreguntasArchivo['preguntas'] #Preguntas
+    RespuestasCompuestas = PreguntasArchivo['respuestas']# Respuestas
+    Preguntas = list(Preguntas) #*Lista de Preguntas
+    RespuestasCompuestas = list(RespuestasCompuestas) #* Lista de respuestas(Compuestas)
+    Num_Preguntas = len(Preguntas) #* *N° Cantidad de preguntas   == Cantidad de respuestas compuestas
     for k in range (n) :
         print(f'Ingrese nombre del alumno N°{k+1} :')
         b = ""
         nombre = input("-> ")
-        for i in range (6)  :
-            print(h[i])
-            r = list(Preg[i].keys())
-            for j in range(len(r)) :
-                print(f'{r[j]} :   {Preg[i][r[j]]}')
-            a = input('-> ')
+        for i in range (Num_Preguntas)  :
+            print(f"{i+1}.- {Preguntas[i]}\n")#*Imprimiendo Preguntas del archivo
+            #La lista de respuestas compuestas las separamos en un nuevo vector
+            RespuestasSeparadas = RespuestasCompuestas[i].split("/")
+            Num_RespuestasSeparadas = len(RespuestasSeparadas)
+            
+            for j in range(Num_RespuestasSeparadas) :
+                print(f'    {j+1} :  {RespuestasSeparadas[j]}')#*Imprimiendo Respuestas del archivo
+            a = input(' -> ')
             b = b + a
         #*  
         Persona.append(f'Persona{k}')
         Persona[k] = Alumno(nombre , b)
         #*
         GuardarDatosCSV(nombre,b)
+        print("\n")
 def menu():
     menu1 = "\t\tMENU\n1.- Agregar Alumnos\n2.- Agregar Preguntas\n3.- Formar Equipos"
     print(menu1)
