@@ -1,19 +1,12 @@
 import pandas as pd
-#alfa = open ( "./MateDiscretaProyect/data.csv", "a")
-#alfa.close()
+import random
 #*Posiblemente Este de mas esta clase / eliminar si es el caso
 class Alumno :
     def __init__(self, nombre, codigo):
         self.nombre = nombre
         self.codigo = codigo
-"""
-Preg = []  #GUARDAR PREGUNTAS
-"""
 Persona = list()  
-""" 
-b = str()
-hh = [] #GUARDAR RESPUESTAS
-h = []"""
+
 def AgregarPreguntas():
     PreguntasArchivo = pd.read_csv("Preguntas.csv",sep = ";",header= 0)
     ColumnaPregunta = PreguntasArchivo
@@ -23,8 +16,6 @@ def AgregarPreguntas():
     for i in range(npre0) :
         print("Ingrese nueva pregunta")
         npre = input("->")
-        #Pnue0 = pd.assign( Pregunta = npre)
-        #Pnue.to_csv("preguntas.csv",";",mode = "a", header= False, index= False)
         print("Cuantas respuestas va a tener?")
         nres = int(input("->"))
         nuerestemp = str()
@@ -71,89 +62,81 @@ def AgregarAlumnos():
         #*
         GuardarDatosCSV(nombre,b)
         print("\n")
-def menu():
-    menu1 = "\t\tMENU\n1.- Agregar Alumnos\n2.- Agregar Preguntas\n3.- Formar Equipos"
-    print(menu1)
-    usu1 = input("> ")
-    match (usu1):
-        case ("1"):
-            AgregarAlumnos()
-        case ("2"):
-            AgregarPreguntas()
-        case ("3"):
-            Combinar_Equipos()
-        case (_):
-            print("vuelva a intentarlo")
-            menu()
+        
+def FormarEquipos():
+    print("Ingrese las preguntas de código a analizar (separadas por comas):")
+    posiciones = input("-> ").split(",")
+    posiciones = [int(p) for p in posiciones]
 
-#!##################################################################################
-def Combinar_Equipos():
-    # Obtener el número de preferencias a buscar
-    print("Ingrese el número de preferencias a buscar:")
-    num_preferencias = int(input("-> "))
+    print("Ingrese las respuestas específicas para formar los equipos (separados por comas):")
+    numeros = input("-> ").split(",")
+    numeros = [int(n) for n in numeros]
 
-    # Crear una lista para almacenar las preferencias a buscar
-    preferencias_buscar = []
+    equipos = []
+    equipo_actual = []
 
-    for _ in range(num_preferencias):
-        print("Ingrese el tipo de gusto:")
-        num_pregunta = int(input("-> "))
+    datos = pd.read_csv("data.csv", sep=";", header=0)
 
-        print(f"Ingrese el número de respuesta para la pregunta {num_pregunta}:")
-        num_respuesta = int(input("-> "))
+    for _, row in datos.iterrows():
+        codigo = [int(c) for c in str(row["codigo_alum"])]
 
-        # Almacenar la pregunta y respuesta en una tupla y agregarla a la lista de preferencias a buscar
-        preferencias_buscar.append((num_pregunta, str(num_respuesta)))
-
-    # Encontrar personas que coincidan en todas las preferencias
-    personas_coincidentes = []
-
-    for persona in Persona:
-        coincidente = True
-
-        for preferencia in preferencias_buscar:
-            pregunta, respuesta = preferencia
-
-            if persona.codigo[pregunta - 1] != respuesta:
-                coincidente = False
+        coincide = True
+        for pos, num in zip(posiciones, numeros):
+            if codigo[pos - 1] != num:
+                coincide = False
                 break
 
-        if coincidente:
-            personas_coincidentes.append(persona.nombre)
+        if coincide:
+            equipo_actual.append(row["nombre_alum"])
 
-    # Mostrar el equipo formado
-    if personas_coincidentes:
-        print("Equipo formado con las siguientes personas:")
-        print(", ".join(personas_coincidentes))
+    equipos = Agrupar(equipo_actual, 7)     
+        
+            #if len(equipo_actual) >= 5:
+                #equipos.append(equipo_actual[:7])  # Limitamos el equipo a un máximo de 7 personas
+                #equipo_actual = []  # Reiniciamos el equipo actual
+
+   # if equipo_actual:  # Si hay personas que no formaron parte de un equipo completo
+       # equipos.append(equipo_actual)
+
+    num_equipos = len(equipos)
+    print(f"Se formaron {num_equipos} equipos:")
+
+    for i, equipo in enumerate(equipos):
+        print(f"Equipo {i+1}: {equipo}")
+
+def Agrupar(datos, tamGrupos):
+    n = len(datos)
+    numGrupos = n // tamGrupos
+    elementosRestantes = n % tamGrupos
+    
+    random.shuffle(datos)
+    
+    gruposFinales = []
+    
+    for i in range(numGrupos):
+        grupo = datos[i*tamGrupos : (i+1)*tamGrupos]
+        gruposFinales.append(grupo)
+    
+    #Para los elementos sobrantes
+    if elementosRestantes > 0:
+        ultimoGrupo = datos[numGrupos*tamGrupos:]
+        gruposFinales.append(ultimoGrupo)
+    
+    return gruposFinales        
+
+def menu():
+    print("\t\tMENU\n1.- Agregar Alumnos\n2.- Agregar Preguntas\n3.- Formar Equipos")
+    usu1 = input("> ")
+
+    if usu1 == "1":
+        AgregarAlumnos()
+    elif usu1 == "2":
+        AgregarPreguntas()
+    elif usu1 == "3":
+        FormarEquipos()
     else:
-        print("No se encontraron personas que coincidan en todas las preferencias.")
-
-
-#!##################################################################################
-
-
-
-
+        print("Opción no válida. Intente nuevamente.")
+        menu()
+        
 if __name__ == "__main__":
     menu()
-
-
-
-
-
-
-
-#!
-####!
-#!      
-
-####!
-#df = pd. read_csv("data.csv", sep=";" )
-#colum = df["codigo_alum"]
-#print(colum[1])
-
-#print(df)
-#print(df["codigo_alum"].size)
-#print(df.index)
-#print(df.size)
-#print(df.dtypes)
