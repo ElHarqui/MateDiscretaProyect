@@ -1,5 +1,6 @@
 import pandas as pd
 import random
+
 #*Posiblemente Este de mas esta clase / eliminar si es el caso
 class Alumno :
     def __init__(self, nombre, codigo):
@@ -22,7 +23,7 @@ def AgregarPreguntas():
         for j in range(nres):
             print(f"Ingrese respuesta {j+1} : ")
             nueres = input("->")
-            if j != nres -1 :
+            if (j != (nres -1)) :
                 nuerestemp = nuerestemp + nueres+ "/"
             else :
                 nuerestemp = nuerestemp + nueres
@@ -44,23 +45,22 @@ def AgregarAlumnos():
     Num_Preguntas = len(Preguntas) #* *N° Cantidad de preguntas   == Cantidad de respuestas compuestas
     for k in range (n) :
         print(f'Ingrese nombre del alumno N°{k+1} :')
-        b = ""
+        CodigoAculumar = ""
         nombre = input("-> ")
         for i in range (Num_Preguntas)  :
             print(f"{i+1}.- {Preguntas[i]}\n")#*Imprimiendo Preguntas del archivo
             #La lista de respuestas compuestas las separamos en un nuevo vector
-            RespuestasSeparadas = RespuestasCompuestas[i].split("/")
+            RespuestasSeparadas = RespuestasCompuestas[i].split("/") 
+            
             Num_RespuestasSeparadas = len(RespuestasSeparadas)
             
             for j in range(Num_RespuestasSeparadas) :
                 print(f'    {j+1} :  {RespuestasSeparadas[j]}')#*Imprimiendo Respuestas del archivo
-            a = input(' -> ')
-            b = b + a
-        #*  
-        Persona.append(f'Persona{k}')
-        Persona[k] = Alumno(nombre , b)
-        #*
-        GuardarDatosCSV(nombre,b)
+            respuestaA = input(' -> ')
+            CodigoAculumar = CodigoAculumar + respuestaA 
+        #*  nombre , CodigoAculumar
+        archivo = pd.DataFrame({"nombre_alum" : [nombre] ,"codigo_alum" : [CodigoAculumar]})
+        archivo.to_csv("data.csv",";",mode= "a", header= False, index= False)
         print("\n")
         
 def FormarEquipos():
@@ -95,8 +95,8 @@ def FormarEquipos():
                 #equipos.append(equipo_actual[:7])  # Limitamos el equipo a un máximo de 7 personas
                 #equipo_actual = []  # Reiniciamos el equipo actual
 
-   # if equipo_actual:  # Si hay personas que no formaron parte de un equipo completo
-       # equipos.append(equipo_actual)
+    # if equipo_actual:  # Si hay personas que no formaron parte de un equipo completo
+    # equipos.append(equipo_actual)
 
     num_equipos = len(equipos)
     print(f"Se formaron {num_equipos} equipos:")
