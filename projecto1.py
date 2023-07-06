@@ -64,7 +64,15 @@ def AgregarAlumnos():
         print("\n")
         
 def FormarEquipos():
-    print("Ingrese las preguntas de código a analizar (separadas por comas):")
+    PreguntasArchivo = pd.read_csv("Preguntas.csv",sep = ";",header= 0)
+    ColumnaPregunta = PreguntasArchivo['preguntas']
+    ColumnaPregunta = list(ColumnaPregunta)
+    NumPreguntas1 = len(ColumnaPregunta)
+    print("\n\n->PREGUNTAS")
+    for h in range (NumPreguntas1) :
+        print(f' {h+1}  : {ColumnaPregunta[h]}')
+    
+    print("\nIngrese las preguntas de código a analizar (separadas por comas):")
     posiciones = input("-> ").split(",")
     posiciones = [int(p) for p in posiciones]
 
